@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     # 'captcha',
     'widget_tweaks',
+    'axes',
    
 ] 
 
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     #my custom middleware 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'customlogginconf.urls'
@@ -136,3 +138,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # my custom code 
 AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# تنظیمات نمونه برای محدودیت تلاش‌ها
+AXES_FAILURE_LIMIT = 5  # حداکثر تلاش ناموفق
+AXES_COOLOFF_TIME = 1  # قفل به مدت 1 ساعت (می‌تواند دقیقه یا ساعت باشد)
