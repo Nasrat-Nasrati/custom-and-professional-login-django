@@ -1,70 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{% block title %}My Website{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    {% block extra_head %}{% endblock %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>{% block title %}My Website{% endblock %}</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    /* Body */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 70px; /* برای جای ناوبری ثابت */
+      color: #343a40;
+    }
+
+    /* Navbar */
+    nav.navbar {
+      background: linear-gradient(90deg, #0069d9, #004085);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1030;
+    }
+
+    nav.navbar .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #fff !important;
+      letter-spacing: 1px;
+    }
+
+    nav.navbar .nav-link {
+      color: #e2e6ea !important;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav.navbar .nav-link:hover,
+    nav.navbar .nav-link.active {
+      color: #ffc107 !important; /* رنگ زرد */
+      text-decoration: underline;
+    }
+
+    /* پیام‌های django messages */
+    .messages {
+      max-width: 700px;
+      margin: 1rem auto;
+    }
+
+    /* فوتر */
+    footer {
+      background-color: #004085;
+      color: #f8f9fa;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      box-shadow: inset 0 1px 5px rgb(255 255 255 / 0.1);
+      margin-top: 3rem;
+    }
+
+    /* دکمه‌ها */
+    .btn-primary {
+      background: #0069d9;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: #004085;
+    }
+
+    /* بخش محتوا */
+    main.container {
+      min-height: 70vh; /* حداقل ارتفاع محتوا */
+      padding-bottom: 2rem;
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'accounts:home' %}">MySite</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'accounts:home' %}">MySite</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ms-auto">
-                <!-- منوی شما اینجا -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:contact' %}">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:services' %}">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:news' %}">News</a>
-                </li>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto">
+        <!-- منوهای عمومی -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'accounts:home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'accounts:contact' %}">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}" href="{% url 'accounts:services' %}">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'news' %}active{% endif %}" href="{% url 'accounts:news' %}">News</a>
+        </li>
 
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:students' %}">Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:teachers' %}">Teachers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:courses' %}">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+        {% if user.is_authenticated %}
+          <!-- منوهای مخصوص کاربر وارد شده -->
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'students' %}active{% endif %}" href="{% url 'accounts:students' %}">Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'teachers' %}active{% endif %}" href="{% url 'accounts:teachers' %}">Teachers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'courses' %}active{% endif %}" href="{% url 'accounts:courses' %}">Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <!-- منوهای کاربران مهمان -->
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'accounts:login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'signup' %}active{% endif %}" href="{% url 'accounts:signup' %}">Sign Up</a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
+  </div>
 </nav>
 
+<!-- نمایش پیام‌ها -->
+<div class="messages container">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
 <main class="container mt-4">
-    {% block content %}
-    <!-- محتوای صفحات فرزند اینجا رندر می‌شود -->
-    {% endblock %}
+  {% block content %}
+  <!-- محتوای صفحات فرزند اینجا رندر می‌شود -->
+  {% endblock %}
 </main>
 
+<footer>
+  © 2025 My Website. All rights reserved.
+</footer>
+
+<!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 {% block extra_js %}{% endblock %}
 
 </body>

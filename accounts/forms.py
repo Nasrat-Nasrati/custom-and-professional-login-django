@@ -15,6 +15,10 @@ class SignupForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'رمز عبور'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'تکرار رمز عبور'}),
         }
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        # اینجا اعتبارسنجی پیش‌فرض username را حذف کردیم (هر مقداری را قبول می‌کند)
+        return username
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(label="Email")

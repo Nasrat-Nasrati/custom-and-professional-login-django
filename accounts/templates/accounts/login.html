@@ -1,32 +1,41 @@
 {% extends 'base.html' %}
-
 {% load widget_tweaks %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login - My Website{% endblock %}
 
 {% block content %}
-<h2 class="mb-4 text-center">Login to Your Account</h2>
-<form method="post" novalidate>
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="id_username" class="form-label">Email</label>
-        {{ form.username|attr:"class:form-control placeholder:Enter your email" }}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4 fw-bold">Login to Your Account</h2>
+    
+    <form method="post" novalidate>
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <label for="id_username" class="form-label fw-semibold">Email</label>
+        {{ form.username|attr:"class:form-control form-control-lg" |attr:"placeholder:Enter your email" }}
         {% if form.username.errors %}
-            <div class="text-danger small">{{ form.username.errors.0 }}</div>
+          <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
         {% endif %}
-    </div>
-    <div class="mb-3">
-        <label for="id_password" class="form-label">Password</label>
-        {{ form.password|attr:"class:form-control placeholder:Password" }}
+      </div>
+      
+      <div class="mb-4">
+        <label for="id_password" class="form-label fw-semibold">Password</label>
+        {{ form.password|attr:"class:form-control form-control-lg" |attr:"placeholder:Password" }}
         {% if form.password.errors %}
-            <div class="text-danger small">{{ form.password.errors.0 }}</div>
+          <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
         {% endif %}
-    </div>
-
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-</form>
-<p class="mt-3 text-center">
-    Don't have an account? 
-    <a href="{% url 'accounts:signup' %}">Sign up</a>
-</p>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100 btn-lg fw-semibold shadow-sm">
+        Login
+      </button>
+    </form>
+    
+    <p class="mt-4 text-center text-muted">
+      Don't have an account? 
+      <a href="{% url 'accounts:signup' %}" class="text-decoration-none fw-semibold">Sign up</a>
+    </p>
+  </div>
+</div>
 {% endblock %}

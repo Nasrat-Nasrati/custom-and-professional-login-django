@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Logged Out{% endblock %}
+{% block title %}Logged Out - My Website{% endblock %}
 
 {% block content %}
-  <div class="container mt-5 text-center">
-    <h2>You have logged out successfully.</h2>
-    <p><a href="{% url 'accounts:login' %}">Click here to login again</a></p>
+<div class="container mt-5">
+  <div class="card mx-auto shadow-sm" style="max-width: 480px;">
+    <div class="card-body text-center p-5">
+      <svg xmlns="http://www.w3.org/2000/svg" class="mb-4" width="80" height="80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out text-success mx-auto" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <h2 class="mb-3">You have logged out successfully.</h2>
+      <p class="mb-4 text-muted">Thank you for visiting. We hope to see you again soon!</p>
+      <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg px-5">
+        Login Again
+      </a>
+    </div>
   </div>
+</div>
 {% endblock %}

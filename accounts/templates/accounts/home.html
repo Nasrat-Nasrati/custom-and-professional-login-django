@@ -3,13 +3,28 @@
 {% block title %}Home - My Website{% endblock %}
 
 {% block content %}
-  <div class="text-center mt-5">
+<div class="container mt-5">
+  <div class="p-5 bg-white rounded shadow-sm text-center">
     {% if user.is_authenticated %}
-      <h1>Welcome, {{ user.username }}!</h1>
-      <p>You are logged in. Use the navigation menu to explore Students, Teachers, Courses, and more.</p>
+      <h1 class="display-4 mb-3">Welcome, {{ user.username }}!</h1>
+      <p class="lead mb-4">
+        You are logged in. Use the navigation menu above to explore
+        <a href="{% url 'accounts:students' %}">Students</a>,
+        <a href="{% url 'accounts:teachers' %}">Teachers</a>,
+        <a href="{% url 'accounts:courses' %}">Courses</a>, and more.
+      </p>
+      <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger px-4">Logout</a>
     {% else %}
-      <h1>Welcome to My Website!</h1>
-      <p>Please <a href="{% url 'accounts:login' %}">login</a> or <a href="{% url 'accounts:signup' %}">sign up</a> to access more features.</p>
+      <h1 class="display-4 mb-3">Welcome to My Website!</h1>
+      <p class="lead mb-4">
+        Please 
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary px-4 mx-2">Login</a>
+        or
+        <a href="{% url 'accounts:signup' %}" class="btn btn-success px-4 mx-2">Sign Up</a>
+        to access more features.
+      </p>
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Welcome" style="max-width: 150px;" class="mt-4 opacity-75" />
     {% endif %}
   </div>
+</div>
 {% endblock %}
